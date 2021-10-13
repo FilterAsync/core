@@ -1,10 +1,16 @@
 import express from 'express';
-import { authApiRouter } from './routes';
+import authRoute from './routes/authRoute';
+import morgan from 'morgan';
 
-const PORT = process.env.PORT || 4000;
-const app = express();
+const app: express.Application = express();
 
-app.use('/api', authApiRouter);
+const PORT: number = 8081;
+
+app.use(express.json());
+
+app.use(morgan('dev'));
+
+app.use('/api', authRoute);
 
 app.listen(PORT, () => {
 	console.log(
