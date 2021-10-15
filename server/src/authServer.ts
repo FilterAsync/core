@@ -2,9 +2,9 @@ import express from 'express';
 import authRoute from './routes/authRoute';
 import morgan from 'morgan';
 
-const app: express.Application = express();
+const app = express();
 
-const PORT: number = 8081;
+const PORT = 8082;
 
 app.use(express.json());
 
@@ -14,6 +14,6 @@ app.use('/api', authRoute);
 
 app.listen(PORT, () => {
 	console.log(
-		`authentication server started on port ${PORT}`
+		`Authentication server started on port ${PORT}`
 	);
 });
