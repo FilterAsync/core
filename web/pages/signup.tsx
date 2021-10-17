@@ -4,11 +4,20 @@ import { useFormik, Formik, Form } from 'formik';
 import axios from 'axios';
 
 export default function Signup() {
-
-    function submitData() {
-        axios.post('127.0.0.1:4000/api/signup', {
-
-        })
+    async function submitData(name: string, pass: string, email: string) {
+        try {
+            return await axios.post('http://127.0.0.1:8082/api/signup', {
+                name,
+                pass,
+                email
+            })
+        }
+        catch (err) {
+            console.log(err);
+        }
+        finally {
+            console.log('Data submitted!')
+        }
     }
 
     return (
@@ -18,38 +27,84 @@ export default function Signup() {
             </Head>
 
             <h1>Sign up page</h1>
+
             <Formik
                 initialValues={{
                     name: '',
                     pass: '',
                     email: ''
                 }}
-                onSubmit={(values) => {
-                    console.log(values);
+                onSubmit={(values, { setSubmitting }) => {
+                    submitData(values.name, values.pass, values.email);
+                    console.log('Data submitted!');
+                    setSubmitting(false);
                 }}
             >
-                {({ isSubmitting }) => {
-                    // somewhere where no one would look inside to make it secret
-                    // ?
-                    // ok
-                    // can i try to rebuild with hooks
-                    // um are u stil here yes
-                    // where is it
-                    // ok
-                    // do Ctrl-P then search for it
-                    // i'm in InputField.js
-                    // ok u can rewrite this thing
-                    // kk
-                    return <Form autoComplete="on" noValidate>
-                        <label>Name:</label>
-                        <input type="text" id="name" name="name" ></input>
-                        <label>Password:</label>
-                        <input type="password" id="pass" name="pass" ></input>
-                        <label>Email:</label>
-                        <input type="email" id="email" name="email" ></input>
-                        <button type="submit" disabled={isSubmitting}>Submit</button>
-                    </Form>
-                }}
+
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting,
+                }) => (
+                    <form onSubmit={handleSubmit}>
+
+                        <label
+                            htmlFor="name"
+                        >
+                            Username:
+                        </label>
+
+                        <input
+
+                            type="name"
+                            name="name"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.name}
+                        />
+
+                        <label
+                            htmlFor="pass"
+                        >
+                            Password:
+                        </label>
+
+                        <input
+                            type="password"
+                            name="pass"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.pass}
+
+                        />
+
+                        <label
+                            htmlFor="email"
+                        >
+                            E-mail:
+                        </label>
+
+                        <input
+
+                            type="email"
+                            name="email"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.email}
+                        />
+
+                        <button type="submit" disabled={isSubmitting}>
+                            Submit
+                        </button>
+
+                    </form>
+
+                )}
+
             </Formik>
         </>
     )
