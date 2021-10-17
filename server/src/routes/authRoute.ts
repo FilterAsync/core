@@ -15,7 +15,8 @@ const uri: string = 'mongodb+srv://admin:1234@core.vipke.mongodb.net/core';
 
 const route = express.Router();
 
-route.get('/signup', (req, res) => {
+route.post('/signup', (req, res) => {
+    console.log('New connection');
     const userObj = {
         name: req.body.name,
         pass: req.body.pass,
@@ -29,6 +30,8 @@ route.get('/signup', (req, res) => {
 
     const user = new User(userObj);
     user.save();
+
+    res.sendStatus(200);
 });
 
 async function getHashedPassword(txt: string) {
