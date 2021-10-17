@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import userSchema from '../models/userSchema';
 import User from '../models/userSchema';
 
-const uri: string = 'mongodb+srv://admin:1234@core.vipke.mongodb.net/core';
+const uri: string = '';
 
 (async function connectMongoDB() {
     await mongoose.connect(uri);
