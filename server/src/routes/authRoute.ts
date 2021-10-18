@@ -3,7 +3,6 @@ import express from 'express';
 import argon2 from 'argon2';
 //
 import mongoose from 'mongoose';
-import userSchema from '../models/userSchema';
 import User from '../models/userSchema';
 
 const uri: string = '';
@@ -15,18 +14,13 @@ const uri: string = '';
 
 const route = express.Router();
 
-route.post('/signup', (req, res) => {
+route.post('/signup', async (req, res) => {
     console.log('New connection');
-    const userObj = {
+    let userObj = {
         name: req.body.name,
-        pass: req.body.pass,
+        pass: await argon2.hash(req.body.pass),
         email: req.body.email
     };
-
-    getHashedPassword(req.body.pass).then((hashedPassword) => {
-        userObj.pass = hashedPassword;
-        console.log(userObj);
-    });
 
     const user = new User(userObj);
     user.save();
