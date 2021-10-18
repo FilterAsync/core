@@ -28,12 +28,4 @@ route.post('/signup', async (req, res) => {
     res.sendStatus(200);
 });
 
-async function getHashedPassword(txt: string) {
-    try {
-        return await argon2.hash(txt);
-    } catch {
-        console.log('Error');
-    };
-};
-
 export default route;
