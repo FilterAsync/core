@@ -5,19 +5,13 @@ import axios from 'axios';
 
 export default function Signup() {
     async function submitData(name: string, pass: string, email: string) {
-        try {
-            return await axios.post('http://127.0.0.1:8082/api/signup', {
-                name,
-                pass,
-                email
-            })
-        }
-        catch (err) {
-            console.log(err);
-        }
-        finally {
-            console.log('Data submitted!')
-        }
+        await axios.post('http://127.0.0.1:8082/api/signup', {
+            name,
+            pass,
+            email
+        });
+
+        console.log('Data submitted!');
     }
 
     return (
