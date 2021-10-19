@@ -1,25 +1,10 @@
 {
 	"compilerOptions": {
-		"target": "ES6",
-		"lib": ["ESNext", "ESNext.AsyncIterable"],
-		"allowJs": true,
-		"skipLibCheck": true,
-		"esModuleInterop": true,
-		"allowSyntheticDefaultImports": true,
-		"strict": true,
-		"forceConsistentCasingInFileNames": true,
-		"noFallthroughCasesInSwitch": true,
-		"sourceMap": true,
-		"module": "CommonJS",
-		"moduleResolution": "Node",
-		"resolveJsonModule": true,
-		"removeComments": true,
-		"baseUrl": ".",
-		"rootDir": "src",
-		"outDir": "dist"
+		"target": "ESNext",
+		"lib": [
+			"ESNext",
+			"ESNext.AsyncIterable"
+		],
 	},
-	"include": ["src"],
-	"ts-node": {
-		"files": true
-	}
+	"compileOnSave": true
 }
