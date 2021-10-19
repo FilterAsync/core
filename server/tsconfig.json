@@ -5,6 +5,12 @@
 			"ESNext",
 			"ESNext.AsyncIterable"
 		],
+		"allowSyntheticDefaultImports": true,
+		"moduleResolution": "node",
+		"esModuleInterop": true
 	},
-	"compileOnSave": true
+	"compileOnSave": true,
+	"exclude": [
+		"node_modules"
+	]
 }
