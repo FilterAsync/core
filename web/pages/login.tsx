@@ -4,19 +4,13 @@ import { useFormik, Formik, Form } from 'formik';
 
 export default function Login() {
     async function submitData(name: string, pass: string) {
-        try {
-            return await axios.post('http://127.0.0.1:8082/api/login', {
-                name,
-                pass
-            });
-        }
-        catch (err) {
-            console.log(err);
-        }
-        finally {
-            console.log('Data submitted!')
-        };
-    };
+        await axios.post('http://127.0.0.1:8082/api/login', {
+            name,
+            pass
+        });
+
+        console.log('Data submitted!');
+    }
 
     return (
         <>
