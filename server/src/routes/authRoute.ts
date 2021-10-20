@@ -34,6 +34,15 @@ route.post('/signup', async (req, res) => {
 });
 
 route.post('/login', async (req, res) => {
+    const user = await User.findOne({ name: req.body.name });
+    if (!user || !await argon2.verify(user.pass, req.body.pass)) {
+        // exception: user does not exist
+        return;
+    };
+    res.sendStatus(200);
+
+    // OLD CODE
+    /*
     if (User.findOne({ name: req.body.name }, async (err, user) => {
         await argon2.verify(user.pass, req.body.pass)
             .catch((err) => {
@@ -45,8 +54,7 @@ route.post('/login', async (req, res) => {
     } else {
         console.log('Database search error');
     }
-
-    res.sendStatus(200);
+    */
 })
 
 export default route;
