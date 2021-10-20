@@ -2,6 +2,7 @@ import express from 'express';
 import authRoute from './routes/authRoute';
 import morgan from 'morgan';
 import cors from 'cors';
+
 const app = express();
 
 const PORT = 8082;
