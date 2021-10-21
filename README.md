@@ -1,3 +1,3 @@
 # Core
 
-Welcome to core. Social network project maintained by volunteers.
+Welcome to Core. Social network project maintained by volunteers.
