@@ -1,16 +1,22 @@
 import Head from 'next/head';
 import axios from 'axios';
 import { useFormik, Formik, Form } from 'formik';
+import { useRouter } from 'next/router';
 
 export default function Login() {
+    const router = useRouter();
+
     async function submitData(name: string, pass: string) {
-        await axios.post('http://127.0.0.1:8082/api/login', {
-            name,
-            pass
+
+        await fetch('http://127.0.0.1:8082/api/login', {
+            method: 'POST',
+            credentials: 'include'
         });
 
-        console.log('Data submitted!');
-    }
+        console.log('Data submitted!'); // ?
+        router.push('/dashboard');
+        // lorem ipsum sit amet dolor 
+    };
 
     return (
         <>

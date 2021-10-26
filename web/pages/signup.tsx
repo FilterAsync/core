@@ -8,7 +8,7 @@ export default function Signup() {
         await axios.post('http://127.0.0.1:8082/api/signup', {
             name,
             pass,
-            email
+            email,
         });
 
         console.log('Data submitted!');
