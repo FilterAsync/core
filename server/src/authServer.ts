@@ -28,10 +28,10 @@ app.use(session({
 		client: redisClient,
 		ttl: 24 * 60 * 60
 	}),
+	name: 'session',
 	cookie: {
 		secure: false,
-		httpOnly: true,
-		sameSite: true
+		httpOnly: true
 	},
 	saveUninitialized: true,
 	resave: false,

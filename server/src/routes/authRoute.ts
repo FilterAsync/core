@@ -57,14 +57,13 @@ route.post('/login', async (req, res) => {
     // };
 
     req.session.userId = 'something';
-    console.log(req.session.userId);
+    console.log('Login request session: ' + req.session.userId);
     res.json('you are now logged in');
 });
 
 route.post('/verify', (req, res) => {
-    if (!req.session || !req.session.userId) {
-        return res.sendStatus(403);
-    };
+    console.log(req.session.userId);
     res.sendStatus(200);
 });
+
 export default route;
