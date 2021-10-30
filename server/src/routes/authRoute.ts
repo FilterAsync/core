@@ -63,7 +63,10 @@ route.post('/login', async (req, res) => {
 
 route.post('/verify', (req, res) => {
     console.log(req.session.userId);
-    res.sendStatus(200);
+    if (!req.session || !req.session.userId) {
+        return res.sendStatus(401);
+    };
+    return res.sendStatus(200);
 });
 
 export default route;
