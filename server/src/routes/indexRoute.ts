@@ -2,9 +2,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
-import mongoose from 'mongoose';
 import argon2 from 'argon2';
+import mongoose from 'mongoose';
 import userSchema from '../models/userSchema';
+import type { RequestHandler } from 'express';
 
 const route = express.Router();
 const User = mongoose.model('User', userSchema);
@@ -18,6 +19,12 @@ const uri = process.env.PRIVATEKEY;
     };
     console.log('Connected to database');
 })();
+
+const verifySession: RequestHandler = (req, res, next) => {
+    if (req.session || req.session.userId) {
+        next();
+    };
+};
 
 route.post('/signup', async (req, res) => {
     console.log('New connection');
@@ -44,6 +51,22 @@ route.post('/login', async (req, res) => {
     req.session.userId = 'something';
     console.log('Login request session: ' + req.session.userId);
     res.json('you are now logged in');
+});
+
+route.post('/message', (req, res) => {
+    console.log(req.session.userId);
+    if (!req.session || !req.session.userId) {
+        return res.sendStatus(401);
+    };
+    return res.sendStatus(200);
+});
+
+route.post('/verify', (req, res) => {
+    console.log(req.session.userId);
+    if (!req.session || !req.session.userId) {
+        return res.sendStatus(401);
+    };
+    return res.sendStatus(200);
 });
 
 export default route;

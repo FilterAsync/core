@@ -1,11 +1,54 @@
 import express from 'express';
+import cors from 'cors';
+import session from 'express-session';
+import redis from 'redis';
+import connectRedis from 'connect-redis';
+import socketio from 'socket.io';
+import type { Socket } from 'socket.io';
+import { createServer } from 'http';
+import apiRoute from './routes/indexRoute';
 
-const PORT = process.env.PORT || 8080; // 80 is used by next.js
+const PORT = 8080;
 
-void (async () => {
-	const app = express();
+const redisClient = redis.createClient();
+const redisStore = connectRedis(session);
 
-	app.listen(PORT, () => {
-		console.log('server started on port %s', PORT);
-	});
-})();
+const app = express();
+
+const httpServer = createServer(app).listen(8081);
+const io = new socketio.Server(httpServer, {
+	cors: {
+		origin: 'http://localhost:3000'
+	}
+});
+
+io.on('connection', (socket: Socket) => {
+	console.log('Connection established');
+	socket.send('Hello!');
+});
+
+app.use(cors({
+	origin: 'http://localhost:3000',
+	credentials: true
+}));
+
+app.use(session({
+	secret: 'Session secret',
+	store: new redisStore({
+		client: redisClient,
+		ttl: 24 * 60 * 60
+	}),
+	name: 'session',
+	cookie: {
+		secure: false,
+		httpOnly: true
+	},
+	saveUninitialized: false,
+	resave: false,
+}));
+
+app.use('/api', apiRoute);
+
+app.listen(PORT, () => {
+	console.log('Main server started on port', PORT);
+});

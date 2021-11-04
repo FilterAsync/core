@@ -7,7 +7,7 @@ export default function Login() {
     const router = useRouter();
 
     async function submitData(name: string, pass: string) {
-        await fetch('http://127.0.0.1:8082/api/login', {
+        await fetch('http://127.0.0.1:8080/api/login', {
             method: 'POST',
             credentials: 'include',
             headers: {
