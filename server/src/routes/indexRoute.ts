@@ -49,24 +49,25 @@ route.post('/login', async (req, res) => {
     // };
 
     req.session.userId = 'something';
-    console.log('Login request session: ' + req.session.userId);
+    console.log(req.session);
     res.json('you are now logged in');
 });
 
 route.post('/message', (req, res) => {
-    console.log(req.session.userId);
+    console.log(req.session);
     if (!req.session || !req.session.userId) {
         return res.sendStatus(401);
     };
     return res.sendStatus(200);
 });
 
-route.post('/verify', (req, res) => {
-    console.log(req.session.userId);
+route.get('/verify', (req, res) => {
+    console.log('Verify session:', req.session);
     if (!req.session || !req.session.userId) {
         return res.sendStatus(401);
     };
     return res.sendStatus(200);
+    res.sendStatus(200);
 });
 
 export default route;

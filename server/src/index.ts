@@ -7,6 +7,7 @@ import socketio from 'socket.io';
 import type { Socket } from 'socket.io';
 import { createServer } from 'http';
 import apiRoute from './routes/indexRoute';
+import bodyParser from 'body-parser';
 
 const PORT = 8080;
 
@@ -18,32 +19,37 @@ const app = express();
 const httpServer = createServer(app).listen(8081);
 const io = new socketio.Server(httpServer, {
 	cors: {
-		origin: 'http://localhost:3000'
+		origin: 'http://localhost:3000',
 	}
 });
+//
+// io.on('connection', (socket: Socket) => {
+// 	console.log('Connection established');
+// 	socket.send('Hello!');
+// });
 
-io.on('connection', (socket: Socket) => {
-	console.log('Connection established');
-	socket.send('Hello!');
-});
+app.use(express.urlencoded({
+	extended: true,
+}));
 
 app.use(cors({
 	origin: 'http://localhost:3000',
-	credentials: true
+	credentials: true,
 }));
 
 app.use(session({
 	secret: 'Session secret',
-	store: new redisStore({
-		client: redisClient,
-		ttl: 24 * 60 * 60
-	}),
+	// store: new redisStore({
+	//	client: redisClient,
+	// 	ttl: 24 * 60 * 60
+	// }),
 	name: 'session',
 	cookie: {
 		secure: false,
-		httpOnly: true
+		httpOnly: true,
+		sameSite: 'strict'
 	},
-	saveUninitialized: false,
+	saveUninitialized: true,
 	resave: false,
 }));
 

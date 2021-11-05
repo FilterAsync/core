@@ -5,29 +5,6 @@ import { useRouter } from 'next/router';
 
 export default function Login() {
     const router = useRouter();
-
-    async function submitData(name: string, pass: string) {
-        await fetch('http://127.0.0.1:8080/api/login', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-
-        router.push('/dashboard');
-
-        /*
-        await axios.post('http://127.0.0.1:8082/api/login', {
-            credentials: 'include',
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-        */
-    };
-
     return (
         <>
             <Head>
@@ -42,9 +19,13 @@ export default function Login() {
                     pass: ''
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                    submitData(values.name, values.pass);
+                    fetch('http://localhost:8080/api/login', {
+                        method: 'POST',
+                        credentials: 'include',
+                    });
                     console.log('Data submitted!');
                     setSubmitting(false);
+                    router.push('/dashboard');
                 }}
             >
 

@@ -1,9 +1,6 @@
 export async function verifyUser() {
-    return await fetch('http://127.0.0.1:8082/api/verify', {
-        method: 'POST',
+    return fetch('http://localhost:8080/api/verify', {
+        method: 'GET',
         credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
+    })
 };
