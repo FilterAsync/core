@@ -2,6 +2,7 @@ import Head from 'next/head';
 import axios from 'axios';
 import { useFormik, Formik, Form } from 'formik';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export default function Login() {
     const router = useRouter();
@@ -12,6 +13,20 @@ export default function Login() {
             </Head>
 
             <h1>Log in page</h1>
+
+            <button onClick={() => {
+                fetch('http://localhost:8080/api/login', {
+                    method: 'POST',
+                    credentials: 'include',
+                });
+            }}>POST</button>
+
+            <button onClick={() => {
+                fetch('http://localhost:8080/api/verify', {
+                    method: 'GET',
+                    credentials: 'include',
+                });
+            }}>GET</button>
 
             <Formik
                 initialValues={{

@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export default function Signup() {
     async function submitData(name: string, pass: string, email: string) {
-        await axios.post('http://127.0.0.1:8082/api/signup', {
+        await axios.post('http://127.0.0.1:8080/api/signup', {
             name,
             pass,
             email,
