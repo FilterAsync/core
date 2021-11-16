@@ -22,9 +22,9 @@ npm install -g typescript
 
 cd server && npm init
 
-npm install argon2 axios connect-redis cors dotenv express express-session@1.17.0 ioredis mongoose morgan redis
+npm install argon2 axios connect-redis cors dotenv express express-session@1.17.0 ioredis mongoose morgan redis socket.io
 
-npm install --save-dev @types/argon2 --save-dev @types/axios --save-dev @types/connect-redis --save-dev @types/cors --save-dev @types/dotenv --save-dev @types/express --save-dev @types/express-session@1.17.0 --save-dev @types/ioredis --save-dev @types/mongoose --save-dev @types/morgan --save-dev @types/redis
+npm install --save-dev @types/argon2 --save-dev @types/axios --save-dev @types/connect-redis --save-dev @types/cors --save-dev @types/dotenv --save-dev @types/express --save-dev @types/express-session@1.17.0 --save-dev @types/ioredis --save-dev @types/mongoose --save-dev @types/morgan --save-dev @types/redis --save-dev @types/socket.io
 
 cd ../web && npm init
 
