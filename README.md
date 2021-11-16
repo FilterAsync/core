@@ -65,4 +65,5 @@ Run the following commands:
 ## Running Core
 
 Running back server: `ts-node index.ts` (run this inside the server/src directory in core)
+
 Running front server: `npm run dev` (make sure you have set the port used by the front server to 443, the default https port) 
