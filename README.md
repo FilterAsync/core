@@ -4,4 +4,30 @@ Welcome to Core. Social network project maintained by volunteers.
 
 Core progress: 20%
 
-Looking for UI designers volunteers who would like to contribute to this open source project by designing the core pages of the website. Discord: chaos_berry#8338
+# How to install Core
+
+Run the following commands:
+
+sudo apt install git
+
+git clone https://github.com/chaosberry/core
+
+cd core
+
+sudo apt install npm
+
+npm install node
+
+npm install -dev typescript
+
+cd server && npm init
+
+npm install argon2 axios connect-redis cors dotenv express express-session@1.17.0 ioredis mongoose morgan redis
+
+npm install --save-dev @types/argon2 --save-dev @types/axios --save-dev @types/connect-redis --save-dev @types/cors --save-dev @types/dotenv --save-dev @types/express --save-dev @types/express-session@1.17.0 --save-dev @types/ioredis --save-dev @types/mongoose --save-dev @types/morgan --save-dev @types/redis
+
+cd ../web && npm init
+
+npm install axios formik morgan next react
+
+npm install --save-dev @types/axios --save-dev @types/morgan --save-dev @types/next --save-dev @types/react
