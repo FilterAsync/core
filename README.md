@@ -16,9 +16,9 @@ Run the following commands:
 
 `sudo apt install npm`
 
-`npm install node`
+`sudo npm install -g ts-node`
 
-`npm install -g typescript`
+`sudo npm install -g typescript`
 
 `cd server && npm init`
 
