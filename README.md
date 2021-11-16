@@ -18,7 +18,7 @@ sudo apt install npm
 
 npm install node
 
-npm install -dev typescript
+npm install -g typescript
 
 cd server && npm init
 
