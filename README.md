@@ -6,7 +6,37 @@ Core Progress: 20%
 
 ## How to install Core
 
-# Linux (Ubuntu)
+## Linux
+
+# Arch
+
+Run the following commands:
+
+`sudo pacman -S git`
+
+`sudo pacman -S npm`
+
+`sudo npm install -g ts-node`
+
+`sudo npm install -g typescript`
+
+`git clone https://github.com/chaosberry/core`
+
+`cd core`
+
+`cd server && npm init`
+
+`npm install argon2 axios connect-redis cors dotenv express express-session@1.17.0 ioredis mongoose morgan redis socket.io`
+
+`npm install --save-dev @types/argon2 --save-dev @types/axios --save-dev @types/connect-redis --save-dev @types/cors --save-dev @types/dotenv --save-dev @types/express --save-dev @types/express-session@1.17.0 --save-dev @types/ioredis --save-dev @types/mongoose --save-dev @types/morgan --save-dev @types/redis --save-dev @types/socket.io`
+
+`cd ../web && npm init`
+
+`npm install axios formik morgan next react`
+
+`npm install --save-dev @types/axios --save-dev @types/morgan --save-dev @types/next --save-dev @types/react`
+
+# Ubuntu
 
 Run the following commands:
 
