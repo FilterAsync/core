@@ -3,27 +3,30 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { verifyUser } from "../modules/verifyUser";
 import io from "socket.io-client";
-import axios from "axios";
 import { Formik } from "formik";
-import { FormEvent } from "react";
 
-const ws = io("http://127.0.0.1:8081/");
+const URL = "http://127.0.0.1:8081/";
+
+const socket = io(URL, { autoConnect: false });
 
 export default function Dashboard() {
-    const [sender, setSender] = useState("");
-    const [message, setMessage] = useState("");
+    const [senders, setSenders] = useState([]);
+    const [name, setName] = useState("");
     const [clientId, setClientId] = useState("");
     const [dms, setDms] = useState(false);
 
     useEffect(() => {
-        ws.on("connected", (id) => {
+        socket.on("connected", (id) => {
             setClientId(id);
         });
 
-        ws.on("servermessage", (data) => {
-            if (ws.id != data.id && ws.id == data.packet.values.receiver) {
-                setSender(data.id);
-                setMessage(data.packet.values.message);
+        socket.on("servermessage", (data) => {
+            if (
+                socket.id != data.id &&
+                socket.id == data.packet.values.receiver
+            ) {
+                setSenders([data.id]);
+                console.log(senders);
             }
         });
     }, []);
@@ -45,26 +48,66 @@ export default function Dashboard() {
             </Head>
             <h1>Dashboard</h1>
 
-            <button
-                onClick={() => {
-                    setDms(dms === false ? true : false);
-                    console.log(dms);
+            <Formik
+                initialValues={{
+                    name: "",
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                    socket.auth = { values };
+                    console.log("Authenticated");
+                    socket.connect();
+                    console.log("Socket connected");
+                    setSubmitting(false);
                 }}
             >
-                DMs
-            </button>
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting,
+                }) => (
+                    <form onSubmit={(e) => handleSubmit(e)}>
+                        <label htmlFor="name">Name:</label>
 
-            {!dms && (
+                        <input
+                            type="name"
+                            name="name"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.name}
+                        />
+
+                        <button type="submit" disabled={isSubmitting}>
+                            Submit
+                        </button>
+                    </form>
+                )}
+            </Formik>
+
+            {name && (
+                <button
+                    onClick={() => {
+                        setDms(dms === false ? true : false);
+                        console.log(dms);
+                    }}
+                >
+                    DMs
+                </button>
+            )}
+
+            {!dms && name && (
                 <>
                     <h1>Send Message</h1>
                     <Formik
                         initialValues={{
                             receiver: "",
-                            message: "",
                         }}
                         onSubmit={(values, { setSubmitting }) => {
-                            console.log("Data submitted");
-                            ws.emit("messagepacket", { values });
+                            console.log("New connection started");
+                            socket.emit("messagepacket", { values });
                             setSubmitting(false);
                         }}
                     >
@@ -78,7 +121,9 @@ export default function Dashboard() {
                             isSubmitting,
                         }) => (
                             <form onSubmit={(e) => handleSubmit(e)}>
-                                <label htmlFor="receiver">Receiver:</label>
+                                <label htmlFor="receiver">
+                                    New conversation:
+                                </label>
 
                                 <input
                                     type="receiver"
@@ -88,16 +133,6 @@ export default function Dashboard() {
                                     value={values.receiver}
                                 />
 
-                                <label htmlFor="message">Message:</label>
-
-                                <input
-                                    type="message"
-                                    name="message"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.message}
-                                />
-
                                 <button type="submit" disabled={isSubmitting}>
                                     Submit
                                 </button>
@@ -105,9 +140,9 @@ export default function Dashboard() {
                         )}
                     </Formik>
                     <h1>Message</h1>
-                    <p>Received from: {sender}</p>
-                    <h3>Message: {message}</h3>
                     <h1>Your ID: {clientId}</h1>
+
+                    <h1>Direct messages</h1>
                 </>
             )}
         </>

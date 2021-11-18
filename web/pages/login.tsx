@@ -1,8 +1,8 @@
-import Head from 'next/head';
-import axios from 'axios';
-import { useFormik, Formik, Form } from 'formik';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import Head from "next/head";
+import axios from "axios";
+import { useFormik, Formik, Form } from "formik";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Login() {
     const router = useRouter();
@@ -14,36 +14,43 @@ export default function Login() {
 
             <h1>Log in page</h1>
 
-            <button onClick={() => {
-                fetch('http://localhost:8080/api/login', {
-                    method: 'POST',
-                    credentials: 'include',
-                });
-            }}>POST</button>
+            <button
+                onClick={() => {
+                    fetch("http://localhost:8080/api/login", {
+                        method: "POST",
+                        credentials: "include",
+                    });
+                }}
+            >
+                POST
+            </button>
 
-            <button onClick={() => {
-                fetch('http://localhost:8080/api/verify', {
-                    method: 'GET',
-                    credentials: 'include',
-                });
-            }}>GET</button>
+            <button
+                onClick={() => {
+                    fetch("http://localhost:8080/api/verify", {
+                        method: "GET",
+                        credentials: "include",
+                    });
+                }}
+            >
+                GET
+            </button>
 
             <Formik
                 initialValues={{
-                    name: '',
-                    pass: ''
+                    name: "",
+                    pass: "",
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                    fetch('http://localhost:8080/api/login', {
-                        method: 'POST',
-                        credentials: 'include',
+                    fetch("http://localhost:8080/api/login", {
+                        method: "POST",
+                        credentials: "include",
                     });
-                    console.log('Data submitted!');
+                    console.log("Data submitted!");
                     setSubmitting(false);
-                    router.push('/dashboard');
+                    router.push("/dashboard");
                 }}
             >
-
                 {({
                     values,
                     errors,
@@ -54,15 +61,9 @@ export default function Login() {
                     isSubmitting,
                 }) => (
                     <form onSubmit={handleSubmit}>
-
-                        <label
-                            htmlFor="name"
-                        >
-                            Username:
-                        </label>
+                        <label htmlFor="name">Username:</label>
 
                         <input
-
                             type="name"
                             name="name"
                             onChange={handleChange}
@@ -70,11 +71,7 @@ export default function Login() {
                             value={values.name}
                         />
 
-                        <label
-                            htmlFor="pass"
-                        >
-                            Password:
-                        </label>
+                        <label htmlFor="pass">Password:</label>
 
                         <input
                             type="password"
@@ -82,18 +79,14 @@ export default function Login() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.pass}
-
                         />
 
                         <button type="submit" disabled={isSubmitting}>
                             Submit
                         </button>
-
                     </form>
-
                 )}
-
             </Formik>
         </>
-    )
+    );
 }
