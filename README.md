@@ -32,7 +32,7 @@ Run the following commands:
 
 `cd ../web && npm init`
 
-`npm install axios formik morgan next react`
+`npm install axios formik morgan next react socket.io-cli`
 
 `npm install --save-dev @types/axios --save-dev @types/morgan --save-dev @types/next --save-dev @types/react`
 
@@ -60,7 +60,7 @@ Run the following commands:
 
 `cd ../web && npm init`
 
-`npm install axios formik morgan next react`
+`npm install axios formik morgan next react socket.io-cli`
 
 `npm install --save-dev @types/axios --save-dev @types/morgan --save-dev @types/next --save-dev @types/react`
 
@@ -88,7 +88,7 @@ Run the following commands:
 
 `cd ../web && npm init`
 
-`npm install axios formik morgan next react`
+`npm install axios formik morgan next react socket.io-cli`
 
 `npm install --save-dev @types/axios --save-dev @types/morgan --save-dev @types/next --save-dev @types/react`
 
