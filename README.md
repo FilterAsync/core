@@ -8,7 +8,7 @@ Core Progress: 20%
 
 ## Linux
 
-# Arch
+### Arch
 
 Run the following commands:
 
@@ -36,7 +36,7 @@ Run the following commands:
 
 `npm install --save-dev @types/axios --save-dev @types/morgan --save-dev @types/next --save-dev @types/react`
 
-# Ubuntu
+## Ubuntu
 
 Run the following commands:
 
@@ -64,9 +64,9 @@ Run the following commands:
 
 `npm install --save-dev @types/axios --save-dev @types/morgan --save-dev @types/next --save-dev @types/react`
 
-# Windows
+## Windows
 
-**Install basic dependencies**
+### Install basic dependencies
 
 [Install Node LTS (and npm)](https://nodejs.org/en/)
 
@@ -96,4 +96,4 @@ Run the following commands:
 
 Running back server: `ts-node index.ts` (run this inside the server/src directory in core)
 
-Running front server: `npm run dev` (make sure you have set the port used by the front server to 443, the default https port) 
+Running front server: `npm run dev` (make sure you have set the port used by the front server to 443, the default https port)
