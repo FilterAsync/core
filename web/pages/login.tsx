@@ -1,6 +1,8 @@
-import Head from 'next/head';
-import { Formik, Form } from 'formik';
-import { useRouter } from 'next/router';
+import Head from "next/head";
+import axios from "axios";
+import { useFormik, Formik, Form } from "formik";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import {
 	FormLabel,
 	FormControl,
@@ -85,5 +87,4 @@ const Login: NextPage = ({}) => {
 		</>
 	);
 };
-
-export default Login;
+}
