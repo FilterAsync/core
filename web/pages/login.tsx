@@ -14,41 +14,25 @@ export default function Login() {
 
             <h1>Log in page</h1>
 
-            <button
-                onClick={() => {
-                    fetch("http://localhost:8080/api/login", {
-                        method: "POST",
-                        credentials: "include",
-                    });
-                }}
-            >
-                POST
-            </button>
-
-            <button
-                onClick={() => {
-                    fetch("http://localhost:8080/api/verify", {
-                        method: "GET",
-                        credentials: "include",
-                    });
-                }}
-            >
-                GET
-            </button>
-
             <Formik
                 initialValues={{
                     name: "",
                     pass: "",
                 }}
-                onSubmit={(values, { setSubmitting }) => {
-                    fetch("http://localhost:8080/api/login", {
+                onSubmit={async (values, { setSubmitting }) => {
+                    const res = await fetch("http://localhost:8080/api/login", {
                         method: "POST",
                         credentials: "include",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(values),
                     });
-                    console.log("Data submitted!");
-                    setSubmitting(false);
-                    router.push("/dashboard");
+                    if (res.status == 200) {
+                        setSubmitting(false);
+                        router.push("/dashboard");
+                        console.log("Data submitted!");
+                    }
                 }}
             >
                 {({
