@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect } from 'react';
 
-function App({ Component, pageProps }) {
+function MyApp({ Component, pageProps }) {
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			require('bootstrap/dist/js/bootstrap');
@@ -11,4 +11,4 @@ function App({ Component, pageProps }) {
 	return <Component {...pageProps} />;
 }
 
-export default App;
+export default MyApp;
