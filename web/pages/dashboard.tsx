@@ -4,13 +4,12 @@ import { useState, useEffect } from 'react';
 import { verifyUser } from '../modules/verifyUser';
 import io from 'socket.io-client';
 import { Formik } from 'formik';
-import { NextPage } from 'next';
 
 const URL = 'http://localhost:8081/';
 
 const socket = io(URL, { autoConnect: false });
 
-const Dashboard: NextPage = () => {
+const Dashboard = () => {
 	const [senders, setSenders] = useState([]);
 	const [name, setName] = useState('');
 	const [dms, setDms] = useState(false);
