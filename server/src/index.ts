@@ -71,10 +71,6 @@ route.get("/verify", (req, res) => {
     res.sendStatus(200);
 });
 
-route.get("fetchID", (req, res) => {
-    return req.session.userId;
-});
-
 const redisClient = redis.createClient();
 const redisStore = connectRedis(session);
 
@@ -91,18 +87,6 @@ const io = new socketio.Server(httpServer, {
 interface ISocket extends Socket {
     name?: string;
 }
-
-const verifyUsername = async (socket: ISocket, next) => {
-    const name = socket.handshake.auth.name;
-    if (!name) {
-        return next(new Error("invalid name"));
-    }
-    socket.name = user.name;
-    console.log(socket.name);
-    next();
-};
-
-io.use(verifyUsername);
 
 io.on("connection", (socket: ISocket) => {
     console.log("User connected:", socket.id);
