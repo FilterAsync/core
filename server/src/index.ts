@@ -11,8 +11,8 @@ import type { Socket } from "socket.io";
 import { createServer } from "http";
 import mongoose from "mongoose";
 import userSchema from "./models/userSchema";
-import type { RequestHandler } from "express";
 import argon2 from "argon2";
+import type { RequestHandler } from "express";
 
 const PORT = 8080;
 
@@ -36,7 +36,6 @@ const verifySession: RequestHandler = (req, res, next) => {
 };
 
 route.post("/signup", async (req, res) => {
-    console.log("New connection");
     let userObj = {
         name: req.body.name,
         pass: await argon2.hash(req.body.pass),
@@ -44,12 +43,16 @@ route.post("/signup", async (req, res) => {
     };
 
     const user = new User(userObj);
-    user.save();
+    user.save((err) => {
+        console.log(err);
+    });
     res.sendStatus(200);
 });
 
 route.post("/login", async (req, res) => {
-    const user = await User.findOne({ name: req.body.name });
+    const user = await User.findOne({
+        name: req.body.name,
+    });
     // if login is incorrect
     if (!user || !(await argon2.verify(user.pass, req.body.pass))) {
         console.log("Incorrect details:", req.body);
@@ -81,16 +84,34 @@ const io = new socketio.Server(httpServer, {
     },
 });
 
-io.on("connection", (socket: Socket) => {
+interface ISocket extends Socket {
+    name?: string;
+}
+
+const verifyUsername = (socket: ISocket, next) => {
+    console.log(socket.handshake.auth.name);
+    const name = socket.handshake.auth.name;
+    if (!name) {
+        return next(new Error("invalid username"));
+    }
+    socket.name = name;
+    console.log(socket.name);
+    next();
+};
+
+io.use(verifyUsername);
+
+io.on("connection", (socket: ISocket) => {
     console.log("User connected:", socket.id);
     socket.emit("connected", socket.id);
 
     socket.on("messagepacket", (packet) => {
-        console.log(packet);
-        return io.sockets.emit("servermessage", {
-            packet: packet,
-            id: socket.id,
-        });
+        if (socket.name) {
+            return io.sockets.emit("servermessage", {
+                packet: packet,
+                id: socket.id,
+            });
+        }
     });
 });
 
