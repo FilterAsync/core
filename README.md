@@ -11,10 +11,13 @@ Core Progress: 20%
 ### Arch
 
 Run the following commands:
+`sudo pacman -S redis`
 
 `sudo pacman -S git`
 
 `sudo pacman -S npm`
+
+`git clone https://github.com/chaosberry/core`
 
 `sudo npm install -g ts-node`
 
@@ -32,13 +35,13 @@ Run the following commands:
 
 `cd ../web && npm init`
 
-`npm install axios formik morgan next react socket.io-cli`
-
-`npm install --save-dev @types/axios --save-dev @types/morgan --save-dev @types/next --save-dev @types/react`
+`npm install axios formik morgan next react socket.io-cli bootstrap --save-dev @types/axios --save-dev @types/morgan --save-dev @types/next --save-dev @types/react --save-dev @types/bootstrap`
 
 ## Ubuntu
 
 Run the following commands:
+
+`sudo apt install redis`
 
 `sudo apt install git`
 
@@ -60,9 +63,7 @@ Run the following commands:
 
 `cd ../web && npm init`
 
-`npm install axios formik morgan next react socket.io-cli`
-
-`npm install --save-dev @types/axios --save-dev @types/morgan --save-dev @types/next --save-dev @types/react`
+`npm install axios formik morgan next react socket.io-cli bootstrap --save-dev @types/axios --save-dev @types/morgan --save-dev @types/next --save-dev @types/react --save-dev @types/bootstrap`
 
 ## Windows
 
