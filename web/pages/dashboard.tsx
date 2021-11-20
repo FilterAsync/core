@@ -5,15 +5,17 @@ import { verifyUser } from "../modules/verifyUser";
 import io from "socket.io-client";
 import { Formik } from "formik";
 
-const URL = "http://127.0.0.1:8081/";
+const URL = "http://localhost:8081/";
 
 const socket = io(URL, { autoConnect: false });
 
 export default function Dashboard() {
     const [senders, setSenders] = useState([]);
     const [name, setName] = useState("");
-    const [clientId, setClientId] = useState("");
     const [dms, setDms] = useState(false);
+    const [clientId, setClientId] = useState("");
+    const [usernameAlreadySelected, setUsernameAlreadySelected] =
+        useState(false);
 
     useEffect(() => {
         socket.on("connected", (id) => {
@@ -23,10 +25,16 @@ export default function Dashboard() {
         socket.on("servermessage", (data) => {
             if (
                 socket.id != data.id &&
-                socket.id == data.packet.values.receiver
+                socket.id == data.packet.values.receiver // if the user's id matches the id the receiver put and if the user isn't receiving his own message
             ) {
                 setSenders([data.id]);
                 console.log(senders);
+            }
+        });
+
+        socket.on("connect_error", (err) => {
+            if (err.message === "invalid username") {
+                setUsernameAlreadySelected(false);
             }
         });
     }, []);
@@ -53,7 +61,7 @@ export default function Dashboard() {
                     name: "",
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                    socket.auth = { values };
+                    socket.auth = { name: values.name };
                     console.log("Authenticated");
                     socket.connect();
                     console.log("Socket connected");
