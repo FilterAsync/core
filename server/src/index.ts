@@ -11,14 +11,17 @@ import type { Socket } from "socket.io";
 import { createServer } from "http";
 import mongoose from "mongoose";
 import userSchema from "./models/userSchema";
+import postSchema from "./models/postSchema";
 import argon2 from "argon2";
 import type { RequestHandler } from "express";
 
 const PORT = 8080;
 
 const route = express.Router();
-const User = mongoose.model("User", userSchema);
 const uri = process.env.PRIVATEKEY;
+
+const User = mongoose.model("User", userSchema);
+const Post = mongoose.model("Post", postSchema);
 
 (async function connectMongoDB() {
     try {
@@ -30,9 +33,10 @@ const uri = process.env.PRIVATEKEY;
 })();
 
 const verifySession: RequestHandler = (req, res, next) => {
-    if (req.session || req.session.userId) {
-        next();
+    if (req.session && req.session.userId) {
+        return next();
     }
+    res.sendStatus(401);
 };
 
 route.post("/signup", async (req, res) => {
@@ -44,8 +48,11 @@ route.post("/signup", async (req, res) => {
 
     const user = new User(userObj);
     user.save((err) => {
-        console.log(err);
+        if (err) return console.log;
+        console.log("No errors");
+        res.sendStatus(200);
     });
+
     res.sendStatus(200);
 });
 
@@ -69,6 +76,24 @@ route.get("/verify", (req, res) => {
         return res.sendStatus(401);
     }
     res.sendStatus(200);
+});
+
+route.post("/post", (req, res) => {
+    let postObj = req.body;
+    console.log(postObj);
+    const post = new Post(postObj);
+    post.save((err) => {
+        if (err) return res.json(err);
+        console.log("No errors");
+        res.sendStatus(200);
+    });
+});
+
+route.get("/recentposts", async (req, res) => {
+    console.log("New request");
+    const posts = await Post.find({});
+    const postsLength = posts.length;
+    res.json(posts.slice(posts.length - 11, posts.length - 1));
 });
 
 const redisClient = redis.createClient();
