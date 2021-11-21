@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 import { NextPage } from "next";
 
-const Login: NextPage = ({}) => {
+const Login: NextPage = () => {
     const router = useRouter();
     return (
         <>
@@ -97,3 +97,5 @@ const Login: NextPage = ({}) => {
         </>
     );
 };
+
+export default Login;
