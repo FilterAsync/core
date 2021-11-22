@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+
 dotenv.config();
 
 import express from "express";
@@ -7,13 +8,13 @@ import session from "express-session";
 import redis from "redis";
 import connectRedis from "connect-redis";
 import socketio from "socket.io";
-import type { Socket } from "socket.io";
-import { createServer } from "http";
+import type {Socket} from "socket.io";
+import {createServer} from "http";
 import mongoose from "mongoose";
 import userSchema from "./models/userSchema";
 import postSchema from "./models/postSchema";
 import argon2 from "argon2";
-import type { RequestHandler } from "express";
+import type {RequestHandler} from "express";
 
 const PORT = 8080;
 
@@ -36,7 +37,7 @@ const verifySession: RequestHandler = (req, res, next) => {
     if (req.session && req.session.userId) {
         return next();
     }
-    res.sendStatus(401);
+    res.status(401).json('You must authenticate in order to access this server');
 };
 
 route.post("/signup", async (req, res) => {
@@ -78,19 +79,20 @@ route.get("/verify", (req, res) => {
     res.sendStatus(200);
 });
 
-route.post("/post", (req, res) => {
+route.post("/post", async (req, res) => {
     let postObj = req.body;
-    console.log(postObj);
     const post = new Post(postObj);
-    post.save((err) => {
-        if (err) return res.json(err);
-        console.log("No errors");
-        res.sendStatus(200);
-    });
+
+    try {
+        await post.save();
+    } catch (err) {
+        return res.sendStatus(424);
+    } finally {
+        console.log('Successfully saved post');
+    }
 });
 
-route.get("/recentposts", async (req, res) => {
-    console.log("New request");
+route.get("/recentposts", verifySession, async (req, res) => {
     const posts = await Post.find({});
     const postsLength = posts.length;
     res.json(posts.slice(posts.length - 11, posts.length - 1));
